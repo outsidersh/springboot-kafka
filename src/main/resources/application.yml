@@ -1,0 +1,37 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/transaction
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  # 配置kafka
+  kafka:
+    bootstrap-servers: localhost:9092
+    # 配置生产者
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: 1
+      retries: 0
+      batch-size: 16384
+      buffer-memory: 33554432
+    # 配置消费者
+    consumer:
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      auto-offset-reset: earliest
+      max-poll-records: 500
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: xiheng
+# 配置kafka日志控制台打印级别
+logging:
+  level:
+    org.apache.kafka.clients.NetworkClient: error
+    org.apache.kafka.clients.consumer.ConsumerConfig: error
+# 配置mybatis-plus控制台打印完整sql语句
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
